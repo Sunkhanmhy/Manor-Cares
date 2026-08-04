@@ -1,0 +1,24 @@
+# Manor Cares — local Postgres for development
+#
+# Usage:
+#   docker compose up -d
+#   php php/migrate.php
+#
+# Matches the PG* defaults already used by php/db.php, so no .env changes
+# are needed for a stock local setup.
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: manor-cares-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: manor_cares
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - manor_cares_pgdata:/var/lib/postgresql/data
+
+volumes:
+  manor_cares_pgdata:

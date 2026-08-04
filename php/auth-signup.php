@@ -12,6 +12,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', '0');
 
 require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/security-headers.php';
 require __DIR__ . '/db.php';
 require __DIR__ . '/jwt.php';
 
@@ -86,11 +87,12 @@ try {
     ]);
     $userId = (int) $insert->fetchColumn();
 
-    $token = mc_jwt_issue(['sub' => $userId, 'email' => $email, 'name' => $name, 'plan' => $plan], $authConfig);
+    $token = mc_jwt_issue(['sub' => $userId, 'email' => $email, 'name' => $name, 'plan' => $plan, 'role' => 'user'], $authConfig);
     mc_jwt_set_cookie($token, $authConfig);
 
     mc_respond(true, "Welcome, {$name}! Your account has been created.", [
-        'user' => ['id' => $userId, 'name' => $name, 'email' => $email, 'plan' => $plan],
+        'user' => ['id' => $userId, 'name' => $name, 'email' => $email, 'plan' => $plan, 'role' => 'user'],
+        'redirect' => 'user-dashboard.html',
     ]);
 } catch (Throwable $e) {
     error_log('Manor Cares signup error: ' . $e->getMessage());

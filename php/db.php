@@ -14,6 +14,39 @@
 
 declare(strict_types=1);
 
+/**
+ * Minimal .env loader for local development — no Composer dependency.
+ * Railway/production should keep using real environment variables and
+ * never ship a .env file (see .gitignore).
+ */
+if (!function_exists('mc_load_dotenv')) {
+    function mc_load_dotenv(): void
+    {
+        static $loaded = false;
+        if ($loaded) {
+            return;
+        }
+        $loaded = true;
+
+        $path = __DIR__ . '/../.env';
+        if (!is_file($path)) {
+            return;
+        }
+        foreach (file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) ?: [] as $line) {
+            $line = trim($line);
+            if ($line === '' || str_starts_with($line, '#') || !str_contains($line, '=')) {
+                continue;
+            }
+            [$key, $value] = array_map('trim', explode('=', $line, 2));
+            $value = trim($value, "\"'");
+            if (getenv($key) === false) {
+                putenv("{$key}={$value}");
+            }
+        }
+    }
+}
+mc_load_dotenv();
+
 function mc_db(): PDO
 {
     static $pdo = null;

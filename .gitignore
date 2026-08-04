@@ -1,0 +1,20 @@
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Node / Vite
+node_modules/
+assets/dist/
+.vite/
+npm-debug.log*
+
+# PHP
+vendor/.DS_Store
+
+# OS / editor
+.DS_Store
+*.swp
+
+# Local Postgres data (if using a bind-mounted volume)
+pgdata/

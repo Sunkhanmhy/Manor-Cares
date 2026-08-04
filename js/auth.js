@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     showPanel('signin');
   }
 
-  function handleAuthForm(form, endpoint, onSuccessRedirect){
+  function handleAuthForm(form, endpoint, defaultRedirect){
     if(!form) return;
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -52,6 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const res = await fetch(endpoint, {
           method: 'POST',
           headers: { 'Accept': 'application/json' },
+          credentials: 'same-origin',
           body: new FormData(form)
         });
         const data = await res.json();
@@ -64,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if(data.success){
           form.reset();
-          setTimeout(() => { window.location.href = onSuccessRedirect; }, 1200);
+          setTimeout(() => { window.location.href = data.redirect || defaultRedirect; }, 1200);
         }
       } catch(err){
         if(successEl){
@@ -77,6 +78,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  handleAuthForm(document.getElementById('signUpForm'), 'php/auth-signup.php', 'subscription.html');
-  handleAuthForm(document.getElementById('signInForm'), 'php/auth-login.php', 'subscription.html');
+  handleAuthForm(document.getElementById('signUpForm'), 'php/auth-signup.php', 'user-dashboard.html');
+  handleAuthForm(document.getElementById('signInForm'), 'php/auth-login.php', 'user-dashboard.html');
 });

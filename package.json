@@ -1,0 +1,16 @@
+{
+  "name": "manor-cares",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Manor Cares — luxury cleaning services website, dashboards and PHP/Postgres API.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "php:serve": "php -S localhost:8000 -t ."
+  },
+  "devDependencies": {
+    "vite": "^5.4.10"
+  }
+}
