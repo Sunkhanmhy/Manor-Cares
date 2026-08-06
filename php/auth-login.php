@@ -45,12 +45,17 @@ if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL) || $password ===
 try {
     $pdo = mc_db();
 
-    $stmt = $pdo->prepare('SELECT id, name, email, password_hash, plan, role, status, failed_login_attempts, locked_until FROM users WHERE email = :email');
+    $stmt = $pdo->prepare('SELECT id, name, email, password_hash, plan, role, status, oauth_provider, failed_login_attempts, locked_until FROM users WHERE email = :email');
     $stmt->execute(['email' => $email]);
     $user = $stmt->fetch();
 
     if ($user !== false && $user['locked_until'] !== null && strtotime((string) $user['locked_until']) > time()) {
         mc_respond(false, 'Too many failed attempts. Please try again in a few minutes.', [], 429);
+    }
+
+    if ($user !== false && $user['password_hash'] === null) {
+        $provider = $user['oauth_provider'] ? ucfirst($user['oauth_provider']) : 'a social account';
+        mc_respond(false, "This account signs in with {$provider}. Please use the \"Continue with {$provider}\" button instead.", [], 409);
     }
 
     // Generic error message for both "no such user" and "wrong password"

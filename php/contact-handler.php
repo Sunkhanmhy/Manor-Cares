@@ -15,10 +15,8 @@ ini_set('display_errors', '0'); // never leak errors/stack traces to clients
 
 require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/polyfills.php';
-require __DIR__ . '/db.php'; // loads .env so MAIL_* vars are available via getenv()
-
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception as PHPMailerException;
+require __DIR__ . '/db.php'; // loads .env so MAIL_*/RESEND_* vars are available via getenv()
+require __DIR__ . '/mailer.php';
 
 header('Content-Type: application/json; charset=utf-8');
 
@@ -110,50 +108,35 @@ if (!empty($errors)) {
     mc_respond(false, implode(' ', $errors), 422);
 }
 
-$mail = new PHPMailer(true);
+$safeName    = htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
+$safeEmail   = htmlspecialchars($email, ENT_QUOTES, 'UTF-8');
+$safePhone   = $phone !== '' ? htmlspecialchars($phone, ENT_QUOTES, 'UTF-8') : 'Not provided';
+$safeSubject = htmlspecialchars($subject, ENT_QUOTES, 'UTF-8');
+$safeMessage = nl2br(htmlspecialchars($message, ENT_QUOTES, 'UTF-8'));
+
+$html = <<<HTML
+    <h2 style="font-family:sans-serif;">New Contact Form Submission</h2>
+    <p style="font-family:sans-serif;"><strong>Name:</strong> {$safeName}</p>
+    <p style="font-family:sans-serif;"><strong>Email:</strong> {$safeEmail}</p>
+    <p style="font-family:sans-serif;"><strong>Phone:</strong> {$safePhone}</p>
+    <p style="font-family:sans-serif;"><strong>Subject:</strong> {$safeSubject}</p>
+    <p style="font-family:sans-serif;"><strong>Message:</strong><br>{$safeMessage}</p>
+    HTML;
+$text = "New Contact Form Submission\n\n"
+    . "Name: {$name}\nEmail: {$email}\nPhone: {$phone}\nSubject: {$subject}\n\nMessage:\n{$message}";
 
 try {
-    if ($config['use_smtp']) {
-        $mail->isSMTP();
-        $mail->Host       = $config['smtp_host'];
-        $mail->SMTPAuth   = true;
-        $mail->Username   = $config['smtp_user'];
-        $mail->Password   = $config['smtp_pass'];
-        $mail->SMTPSecure = $config['smtp_secure'] === 'ssl'
-            ? PHPMailer::ENCRYPTION_SMTPS
-            : PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port       = $config['smtp_port'];
-    }
-
-    $mail->CharSet = 'UTF-8';
-    $mail->setFrom($config['from_email'], $config['from_name']);
-    $mail->addAddress($config['to_email'], $config['to_name']);
-    // Reply-To lets support reply directly to the visitor; PHPMailer validates the address.
-    $mail->addReplyTo($email, $name);
-
-    $safeName    = htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
-    $safeEmail   = htmlspecialchars($email, ENT_QUOTES, 'UTF-8');
-    $safePhone   = $phone !== '' ? htmlspecialchars($phone, ENT_QUOTES, 'UTF-8') : 'Not provided';
-    $safeSubject = htmlspecialchars($subject, ENT_QUOTES, 'UTF-8');
-    $safeMessage = nl2br(htmlspecialchars($message, ENT_QUOTES, 'UTF-8'));
-
-    $mail->isHTML(true);
-    $mail->Subject = 'Manor Cares Contact Form: ' . $subject;
-    $mail->Body = <<<HTML
-        <h2 style="font-family:sans-serif;">New Contact Form Submission</h2>
-        <p style="font-family:sans-serif;"><strong>Name:</strong> {$safeName}</p>
-        <p style="font-family:sans-serif;"><strong>Email:</strong> {$safeEmail}</p>
-        <p style="font-family:sans-serif;"><strong>Phone:</strong> {$safePhone}</p>
-        <p style="font-family:sans-serif;"><strong>Subject:</strong> {$safeSubject}</p>
-        <p style="font-family:sans-serif;"><strong>Message:</strong><br>{$safeMessage}</p>
-        HTML;
-    $mail->AltBody = "New Contact Form Submission\n\n"
-        . "Name: {$name}\nEmail: {$email}\nPhone: {$phone}\nSubject: {$subject}\n\nMessage:\n{$message}";
-
-    $mail->send();
+    // Reply-To lets support reply directly to the visitor.
+    mc_send_mail(
+        ['email' => $config['to_email'], 'name' => $config['to_name']],
+        'Manor Cares Contact Form: ' . $subject,
+        $html,
+        $text,
+        ['email' => $email, 'name' => $name]
+    );
 
     mc_respond(true, "Thank you, {$name}! Your message has been sent — a Manor Cares representative will reach out within 24 hours.");
-} catch (PHPMailerException $e) {
-    error_log('Manor Cares contact form mail error: ' . $mail->ErrorInfo);
+} catch (Throwable $e) {
+    error_log('Manor Cares contact form mail error: ' . $e->getMessage());
     mc_respond(false, 'Sorry, your message could not be sent right now. Please try again later or email us directly.', 500);
 }

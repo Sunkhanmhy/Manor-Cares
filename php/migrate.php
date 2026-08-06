@@ -2,10 +2,11 @@
 /**
  * Manor Cares — one-time database migration runner
  *
- * Usage (run once after linking the Railway Postgres plugin):
- *   railway run php php/migrate.php
- * or, if you have DATABASE_URL exported locally:
+ * Usage (after setting SUPABASE_DB_URL in .env, or as a real env var in prod):
  *   php php/migrate.php
+ *
+ * Equivalent to pasting php/schema.sql into the Supabase Dashboard's SQL
+ * Editor and clicking "Run".
  */
 
 declare(strict_types=1);
