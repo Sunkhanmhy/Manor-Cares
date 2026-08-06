@@ -1,6 +1,7 @@
 /* ==========================================================================
    Manor Cares — Create Account / Sign In page logic
-   Talks to php/auth-signup.php and php/auth-login.php (Railway Postgres + JWT)
+   Talks to php/auth-signup.php and php/auth-login.php (Supabase Postgres + JWT),
+   plus php/oauth-start.php for "Continue with Google/GitHub" (Supabase Auth).
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -37,6 +38,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if(params.get('mode') === 'signin'){
     showPanel('signin');
+  }
+
+  // Surface OAuth failures redirected back from php/oauth-callback.php
+  const oauthError = params.get('oauth_error');
+  if(oauthError){
+    const panel = params.get('mode') === 'signin' ? signInPanel : signUpPanel;
+    const successEl = panel && panel.querySelector('.form-success');
+    if(successEl){
+      successEl.textContent = oauthError;
+      successEl.classList.add('show', 'form-error');
+    }
   }
 
   function handleAuthForm(form, endpoint, defaultRedirect){

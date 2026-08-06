@@ -1,15 +1,15 @@
 <?php
 /**
- * Manor Cares — Postgres (Railway) database connection
+ * Manor Cares — Supabase Postgres database connection
  *
- * Railway automatically injects a `DATABASE_URL` environment variable
- * (format: postgres://user:password@host:port/database) into any service
- * you attach a Postgres plugin to. This helper parses that URL, falling
- * back to discrete PG* variables for local development.
+ * Supabase gives you a standard Postgres connection string under
+ * Project Settings → Database → Connection string (use the "Transaction
+ * pooler" URI for serverless/many-short-lived-connections hosting like
+ * Railway/Vercel, or the direct connection URI otherwise). Set it as
+ * SUPABASE_DB_URL (DATABASE_URL is also accepted as an alias so existing
+ * deployments keep working).
  *
- * Required on Railway: link a Postgres database to this service (or add
- * the "PostgreSQL" plugin from the Railway dashboard) — Railway then sets
- * DATABASE_URL for you automatically. No further configuration needed.
+ * Format: postgres://user:password@host:port/database
  */
 
 declare(strict_types=1);
@@ -18,8 +18,8 @@ require_once __DIR__ . '/polyfills.php';
 
 /**
  * Minimal .env loader for local development — no Composer dependency.
- * Railway/production should keep using real environment variables and
- * never ship a .env file (see .gitignore).
+ * Production (Railway, Vercel, etc.) should keep using real environment
+ * variables and never ship a .env file (see .gitignore).
  */
 if (!function_exists('mc_load_dotenv')) {
     function mc_load_dotenv(): void
@@ -56,25 +56,27 @@ function mc_db(): PDO
         return $pdo;
     }
 
-    $databaseUrl = getenv('DATABASE_URL') ?: '';
+    // SUPABASE_DB_URL is the canonical name; DATABASE_URL is accepted as an
+    // alias for compatibility with generic hosting providers (e.g. Railway)
+    // that inject that variable name automatically.
+    $databaseUrl = getenv('SUPABASE_DB_URL') ?: (getenv('DATABASE_URL') ?: '');
 
-    if ($databaseUrl !== '') {
-        $parts = parse_url($databaseUrl);
-        if ($parts === false || !isset($parts['host'])) {
-            throw new RuntimeException('DATABASE_URL is malformed.');
-        }
-        $host   = $parts['host'];
-        $port   = $parts['port'] ?? 5432;
-        $dbname = isset($parts['path']) ? ltrim($parts['path'], '/') : '';
-        $user   = isset($parts['user']) ? rawurldecode($parts['user']) : '';
-        $pass   = isset($parts['pass']) ? rawurldecode($parts['pass']) : '';
-    } else {
-        $host   = getenv('PGHOST') ?: 'localhost';
-        $port   = getenv('PGPORT') ?: '5432';
-        $dbname = getenv('PGDATABASE') ?: 'manor_cares';
-        $user   = getenv('PGUSER') ?: 'postgres';
-        $pass   = getenv('PGPASSWORD') ?: '';
+    if ($databaseUrl === '') {
+        throw new RuntimeException(
+            'SUPABASE_DB_URL is not set. Copy your Supabase project\'s connection string ' .
+            '(Project Settings → Database → Connection string) into .env as SUPABASE_DB_URL.'
+        );
     }
+
+    $parts = parse_url($databaseUrl);
+    if ($parts === false || !isset($parts['host'])) {
+        throw new RuntimeException('SUPABASE_DB_URL is malformed.');
+    }
+    $host   = $parts['host'];
+    $port   = $parts['port'] ?? 5432;
+    $dbname = isset($parts['path']) ? ltrim($parts['path'], '/') : 'postgres';
+    $user   = isset($parts['user']) ? rawurldecode($parts['user']) : '';
+    $pass   = isset($parts['pass']) ? rawurldecode($parts['pass']) : '';
 
     $sslMode = getenv('PGSSLMODE') ?: 'require';
     $dsn = "pgsql:host={$host};port={$port};dbname={$dbname};sslmode={$sslMode}";

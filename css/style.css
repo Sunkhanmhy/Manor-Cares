@@ -402,6 +402,23 @@ section{ padding:50px 0; position:relative; }
 @media (max-width:480px){
   .auth-tab{ font-size:.9rem; padding:12px 6px; }
 }
+
+.oauth-divider{
+  display:flex; align-items:center; gap:14px; margin:22px 0; color:var(--text-soft); font-size:.82rem;
+}
+.oauth-divider::before, .oauth-divider::after{ content:''; flex:1; height:1px; background:var(--glass-border); }
+.oauth-buttons{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.btn-oauth{
+  display:flex; align-items:center; justify-content:center; gap:10px; padding:13px 16px; border-radius:12px;
+  border:1px solid var(--glass-border); background:rgba(255,255,255,0.5); color:var(--text-main);
+  font-weight:600; font-size:.9rem; transition:var(--transition);
+}
+.btn-oauth:hover{ background:var(--glass-bg-strong); border-color:var(--clr-green); transform:translateY(-2px); }
+.btn-oauth i{ font-size:1.05rem; }
+@media (max-width:480px){
+  .oauth-buttons{ grid-template-columns:1fr; }
+}
+
 .field{ display:flex; flex-direction:column; gap:8px; margin-bottom:18px; }
 .field label{ font-weight:600; font-size:.88rem; color:var(--text-main); }
 .field input, .field select, .field textarea{

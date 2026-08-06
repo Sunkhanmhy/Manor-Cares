@@ -1,23 +1,29 @@
--- Manor Cares — Auth + Dashboard schema (PostgreSQL / Railway)
--- Run once against your database, e.g.:
---   railway run psql "$DATABASE_URL" -f php/schema.sql
--- or via php/migrate.php (php php/migrate.php)
+-- Manor Cares — Auth + Dashboard schema (Supabase / PostgreSQL)
+-- Run once against your Supabase database, e.g.:
+--   psql "$SUPABASE_DB_URL" -f php/schema.sql
+-- or via php/migrate.php (php php/migrate.php), or paste it into the
+-- Supabase Dashboard → SQL Editor and click "Run".
 -- Safe to re-run: every statement is idempotent.
 
 -- ---------------------------------------------------------------------------
 -- users
 -- ---------------------------------------------------------------------------
+-- password_hash is nullable because OAuth-only accounts (Google/GitHub via
+-- Supabase Auth, see php/oauth-start.php + php/oauth-callback.php) never set
+-- a local password.
 CREATE TABLE IF NOT EXISTS users (
     id                    BIGSERIAL PRIMARY KEY,
     name                  VARCHAR(120)  NOT NULL,
     email                 VARCHAR(180)  NOT NULL UNIQUE,
-    password_hash         TEXT          NOT NULL,
+    password_hash         TEXT,
     plan                  VARCHAR(40)   NOT NULL DEFAULT 'essential',
     role                  VARCHAR(20)   NOT NULL DEFAULT 'user' CHECK (role IN ('user','admin')),
     status                VARCHAR(20)   NOT NULL DEFAULT 'active' CHECK (status IN ('active','suspended','deleted')),
     phone                 VARCHAR(30),
     address               VARCHAR(255),
     avatar_url            VARCHAR(255),
+    oauth_provider        VARCHAR(20),
+    oauth_id              VARCHAR(255),
     failed_login_attempts SMALLINT      NOT NULL DEFAULT 0,
     locked_until          TIMESTAMPTZ,
     last_login_at         TIMESTAMPTZ,
@@ -29,15 +35,20 @@ CREATE INDEX IF NOT EXISTS idx_users_email ON users (email);
 CREATE INDEX IF NOT EXISTS idx_users_role ON users (role);
 
 -- Add columns for installs that already have an older `users` table.
+ALTER TABLE users ALTER COLUMN password_hash DROP NOT NULL;
 ALTER TABLE users ADD COLUMN IF NOT EXISTS role VARCHAR(20) NOT NULL DEFAULT 'user';
 ALTER TABLE users ADD COLUMN IF NOT EXISTS status VARCHAR(20) NOT NULL DEFAULT 'active';
 ALTER TABLE users ADD COLUMN IF NOT EXISTS phone VARCHAR(30);
 ALTER TABLE users ADD COLUMN IF NOT EXISTS address VARCHAR(255);
 ALTER TABLE users ADD COLUMN IF NOT EXISTS avatar_url VARCHAR(255);
+ALTER TABLE users ADD COLUMN IF NOT EXISTS oauth_provider VARCHAR(20);
+ALTER TABLE users ADD COLUMN IF NOT EXISTS oauth_id VARCHAR(255);
 ALTER TABLE users ADD COLUMN IF NOT EXISTS failed_login_attempts SMALLINT NOT NULL DEFAULT 0;
 ALTER TABLE users ADD COLUMN IF NOT EXISTS locked_until TIMESTAMPTZ;
 ALTER TABLE users ADD COLUMN IF NOT EXISTS last_login_at TIMESTAMPTZ;
 ALTER TABLE users ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW();
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_users_oauth ON users (oauth_provider, oauth_id) WHERE oauth_provider IS NOT NULL;
 
 -- ---------------------------------------------------------------------------
 -- bookings (service requests raised from the user dashboard)
@@ -87,9 +98,11 @@ CREATE TABLE IF NOT EXISTS webhooks_log (
 -- Row Level Security
 --
 -- NOTE: RLS policies are ignored for the table owner / superuser connection
--- role (e.g. the default `postgres` user). For these policies to actually be
--- enforced in production, connect the application with a non-owner role
--- (see php/create-app-role.sql) and set PGUSER to that role.
+-- role — on Supabase that's the default `postgres` role used by the
+-- connection string in Settings → Database. For these policies to actually
+-- be enforced, connect the application with a non-owner role (see
+-- php/create-app-role.sql, run it from the Supabase SQL Editor) and set
+-- SUPABASE_DB_URL to use that role instead.
 -- ---------------------------------------------------------------------------
 ALTER TABLE users ENABLE ROW LEVEL SECURITY;
 ALTER TABLE users FORCE ROW LEVEL SECURITY;
