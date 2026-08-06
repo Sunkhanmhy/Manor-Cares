@@ -105,21 +105,20 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  /* ---------- Contact form (real submission via PHP + PHPMailer) ---------- */
-  const contactForm = document.getElementById('contactForm');
-  if(contactForm){
-    contactForm.addEventListener('submit', async (e) => {
+  /* ---------- Contact / quote-request forms (real submission via PHP + PHPMailer) ---------- */
+  document.querySelectorAll('form[data-ajax-form]').forEach((ajaxForm) => {
+    ajaxForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const successEl = contactForm.querySelector('.form-success');
-      const submitBtn = contactForm.querySelector('button[type="submit"]');
+      const successEl = ajaxForm.querySelector('.form-success');
+      const submitBtn = ajaxForm.querySelector('button[type="submit"]');
       const originalLabel = submitBtn ? submitBtn.textContent : '';
       if(submitBtn){ submitBtn.disabled = true; submitBtn.textContent = 'Sending...'; }
 
       try{
-        const res = await fetch(contactForm.action, {
+        const res = await fetch(ajaxForm.action, {
           method: 'POST',
           headers: { 'Accept': 'application/json' },
-          body: new FormData(contactForm)
+          body: new FormData(ajaxForm)
         });
         const data = await res.json();
         if(successEl){
@@ -128,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
           successEl.classList.add('show');
           setTimeout(() => successEl.classList.remove('show'), 8000);
         }
-        if(data.success) contactForm.reset();
+        if(data.success) ajaxForm.reset();
       } catch(err){
         if(successEl){
           successEl.textContent = 'Network error — please try again later.';
@@ -139,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if(submitBtn){ submitBtn.disabled = false; submitBtn.textContent = originalLabel; }
       }
     });
-  }
+  });
 
   /* ---------- Pill option groups (single-select) ---------- */
   document.querySelectorAll('.pill-options').forEach(group => {

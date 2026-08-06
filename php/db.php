@@ -14,6 +14,8 @@
 
 declare(strict_types=1);
 
+require_once __DIR__ . '/polyfills.php';
+
 /**
  * Minimal .env loader for local development — no Composer dependency.
  * Railway/production should keep using real environment variables and

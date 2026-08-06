@@ -14,6 +14,8 @@ error_reporting(E_ALL);
 ini_set('display_errors', '0'); // never leak errors/stack traces to clients
 
 require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/polyfills.php';
+require __DIR__ . '/db.php'; // loads .env so MAIL_* vars are available via getenv()
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception as PHPMailerException;
@@ -57,6 +59,21 @@ $phone   = trim((string) ($_POST['phone'] ?? ''));
 $subject = trim((string) ($_POST['subject'] ?? 'General Inquiry'));
 $message = trim((string) ($_POST['message'] ?? ''));
 
+// The "Request Clean-up Quote" form (services.html) collects structured
+// fields instead of a free-text message — build a readable message from
+// them when no explicit message was submitted.
+$address      = trim((string) ($_POST['address'] ?? ''));
+$propertyType = trim((string) ($_POST['property_type'] ?? ''));
+$frequency    = trim((string) ($_POST['frequency'] ?? ''));
+
+if ($message === '' && ($address !== '' || $propertyType !== '' || $frequency !== '')) {
+    $details = [];
+    if ($propertyType !== '') $details[] = "Property type: {$propertyType}";
+    if ($frequency !== '') $details[] = "Preferred frequency: {$frequency}";
+    if ($address !== '') $details[] = "Property address: {$address}";
+    $message = "Quote request details:\n" . implode("\n", $details);
+}
+
 $errors = [];
 
 if ($name === '' || mb_strlen($name) > 120) {
@@ -69,6 +86,10 @@ if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL) || mb_strlen($em
 
 if ($phone !== '' && !preg_match('/^[0-9+\-\s().]{6,20}$/', $phone)) {
     $errors[] = 'Please provide a valid phone number.';
+}
+
+if ($address !== '' && mb_strlen($address) > 255) {
+    $errors[] = 'Please provide a valid address (up to 255 characters).';
 }
 
 if ($message === '' || mb_strlen($message) > 5000) {
