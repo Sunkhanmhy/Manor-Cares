@@ -1,0 +1,16 @@
+2026-08-06 08:39:57.029 WAT [6] LOG:  starting PostgreSQL 16.14 (Ubuntu 16.14-0ubuntu0.24.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, 64-bit
+2026-08-06 08:39:57.029 WAT [6] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2026-08-06 08:39:57.031 WAT [6] FATAL:  could not create lock file "/tmp/.s.PGSQL.5432.lock": Read-only file system
+2026-08-06 08:39:57.034 WAT [6] LOG:  database system is shut down
+2026-08-06 08:40:44.803 WAT [9] LOG:  starting PostgreSQL 16.14 (Ubuntu 16.14-0ubuntu0.24.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, 64-bit
+2026-08-06 08:40:44.803 WAT [9] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2026-08-06 08:40:44.810 WAT [9] LOG:  could not create Unix socket for address "/home/pauline-pc/Repository/Manor Cares/.pgdata/sock/.s.PGSQL.5432": Operation not permitted
+2026-08-06 08:40:44.810 WAT [9] WARNING:  could not create Unix-domain socket in directory "/home/pauline-pc/Repository/Manor Cares/.pgdata/sock"
+2026-08-06 08:40:44.810 WAT [9] FATAL:  could not create any Unix-domain sockets
+2026-08-06 08:40:44.814 WAT [9] LOG:  database system is shut down
+2026-08-06 08:41:33.182 WAT [18035] LOG:  starting PostgreSQL 16.14 (Ubuntu 16.14-0ubuntu0.24.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, 64-bit
+2026-08-06 08:41:33.183 WAT [18035] LOG:  could not bind IPv4 address "127.0.0.1": Address already in use
+2026-08-06 08:41:33.183 WAT [18035] HINT:  Is another postmaster already running on port 5432? If not, wait a few seconds and retry.
+2026-08-06 08:41:33.183 WAT [18035] WARNING:  could not create listen socket for "localhost"
+2026-08-06 08:41:33.183 WAT [18035] FATAL:  could not create any TCP/IP sockets
+2026-08-06 08:41:33.192 WAT [18035] LOG:  database system is shut down

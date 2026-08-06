@@ -1,7 +1,11 @@
 # Manor Cares — local Postgres for development
 #
+# NOTE: if a `compose.yaml` file also exists in this folder, Docker Compose
+# prefers it over this file. Make sure only one Postgres container is
+# actually running and that .env's PG* values match its credentials.
+#
 # Usage:
-#   docker compose up -d
+#   docker compose -f docker-compose.yml up -d
 #   php php/migrate.php
 #
 # Matches the PG* defaults already used by php/db.php, so no .env changes
