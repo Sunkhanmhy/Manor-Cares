@@ -64,6 +64,8 @@ npm run build    # outputs assets/dist/{dashboard,admin}.js
 
 ---
 
+
+
 ## 2. Connect the database (Supabase)
 
 1. Create a project at [supabase.com](https://supabase.com/dashboard) (free
@@ -80,6 +82,7 @@ npm run build    # outputs assets/dist/{dashboard,admin}.js
    SUPABASE_DB_URL=postgresql://postgres.<project-ref>:<db-password>@aws-0-<region>.pooler.supabase.com:6543/postgres
    PGSSLMODE=require
    ```
+
 4. **Run the schema** — either:
    ```bash
    php php/migrate.php
@@ -99,7 +102,7 @@ npm run build    # outputs assets/dist/{dashboard,admin}.js
      `postgres`, keeping the same host/port/database.
 6. **Get the project API keys** for OAuth (see §3): Project → **Settings →
    API** → copy the `URL`, `anon public` key, and `service_role` key into
-   `.env` as `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`.
+   `.env` as `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`.                                                                                                                                        
    The service role key is optional today (reserved for future
    Storage/Admin API use) — **never** expose it to the browser.
 
