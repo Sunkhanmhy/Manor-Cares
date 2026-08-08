@@ -151,8 +151,7 @@ exchange, and provider quirks. The app only needs `SUPABASE_URL` +
 
 `php/contact-handler.php` (used by both `contact.html` and the
 `services.html` "Request Clean-up Quote" form) sends through
-`php/mailer.php`, which picks a backend automatically:
-
+`php/mailer.php`, which picks a backend automatically
 **Option A — Resend (recommended)**
 1. Create an account at [resend.com](https://resend.com) and verify a
    sending domain (Domains → Add Domain → add the DNS records it gives
