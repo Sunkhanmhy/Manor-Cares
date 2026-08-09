@@ -214,19 +214,20 @@
         <h2>Request Clean-up Quote</h2>
         <p>Share a few detailed description of the property and our team will follow up with tailored pricing and plan recommendations.</p>
       </div>
-      <form data-demo-form>
+      <form id="quoteForm" data-ajax-form action="php/contact-handler.php" method="POST" novalidate>
+        <input type="hidden" name="subject" value="Request A Quote">
         <div class="form-row">
-          <div class="field"><label for="svcName">Full Name</label><input type="text" id="svcName" placeholder="Jane Anderson" required></div>
-          <div class="field"><label for="svcEmail">Email Address</label><input type="email" id="svcEmail" placeholder="jane@email.com" required></div>
+          <div class="field"><label for="svcName">Full Name</label><input type="text" id="svcName" name="name" placeholder="Jane Anderson" required maxlength="120"></div>
+          <div class="field"><label for="svcEmail">Email Address</label><input type="email" id="svcEmail" name="email" placeholder="jane@email.com" required maxlength="180"></div>
         </div>
         <div class="form-row">
-          <div class="field"><label for="svcPhone">Phone Number</label><input type="tel" id="svcPhone" placeholder="+234 (806) 496-4366" required></div>
-          <div class="field"><label for="svcAddress">Address</label><input type="text" id="svcAddress" placeholder="Sango-UI Road, Ibadan" required></div>
+          <div class="field"><label for="svcPhone">Phone Number</label><input type="tel" id="svcPhone" name="phone" placeholder="+234 (806) 496-4366" required maxlength="20"></div>
+          <div class="field"><label for="svcAddress">Address</label><input type="text" id="svcAddress" name="address" placeholder="Sango-UI Road, Ibadan" required maxlength="255"></div>
         </div>
         <div class="form-row">
           <div class="field">
             <label for="svcProperty">Property Type</label>
-            <select id="svcProperty">
+            <select id="svcProperty" name="property_type">
               <option>Apartment / Condo</option>
               <option>House / Villa</option>
               <option>Office</option>
@@ -236,7 +237,7 @@
           </div>
           <div class="field">
             <label for="svcFrequency">Preferred Frequency</label>
-            <select id="svcFrequency">
+            <select id="svcFrequency" name="frequency">
               <option>One-Time</option>
               <option>Weekly</option>
               <option>Bi-Weekly</option>
@@ -244,7 +245,11 @@
             </select>
           </div>
         </div>
-        <div class="checkbox-row"><input type="checkbox" id="svcNews" checked><label for="svcNews">Subscribe me to cleaning tips &amp; exclusive offers</label></div>
+        <div class="checkbox-row"><input type="checkbox" id="svcNews" name="newsletter" checked><label for="svcNews">Subscribe me to cleaning tips &amp; exclusive offers</label></div>
+        <div style="position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden;" aria-hidden="true">
+          <label for="svcWebsite">Leave this field empty</label>
+          <input type="text" id="svcWebsite" name="website" tabindex="-1" autocomplete="off">
+        </div>
         <button type="submit" class="btn btn-primary btn-block">Request My Quote</button>
         <div class="form-success">✔ Thank you! Your request has been received — we'll be in touch within 24 hours.</div>
       </form>
