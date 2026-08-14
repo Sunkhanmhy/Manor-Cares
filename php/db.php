@@ -72,11 +72,11 @@ function mc_db(): PDO
     if ($parts === false || !isset($parts['host'])) {
         throw new RuntimeException('SUPABASE_DB_URL is malformed.');
     }
-    $host   = $parts['host'];
-    $port   = $parts['port'] ?? 5432;
+    $host   = $parts['aws-1-eu-west-1.pooler.supabase.com'];
+    $port   = $parts['6543'] ?? 6543;
     $dbname = isset($parts['path']) ? ltrim($parts['path'], '/') : 'postgres';
-    $user   = isset($parts['user']) ? rawurldecode($parts['user']) : '';
-    $pass   = isset($parts['pass']) ? rawurldecode($parts['pass']) : '';
+    $user   = isset($parts['user']) ? rawurldecode($parts['user']) : 'postgres.kpypmkaedyohnlabdchl';
+    $pass   = isset($parts['pass']) ? rawurldecode($parts['pass']) : 'Pauline-Shurtz%402020';
 
     $sslMode = getenv('PGSSLMODE') ?: 'require';
     $dsn = "pgsql:host={$host};port={$port};dbname={$dbname};sslmode={$sslMode}";
