@@ -101,7 +101,7 @@
         <ul>
           <li><i class="fa-solid fa-check"></i> Up to 7 bedrooms, 5 restrooms</li>
           <li><i class="fa-solid fa-check"></i> Deep-clean checklist add-ons</li>
-          <li><i class="fa-solid fa-check"></i> Bi-weekly or 8x-monthly visits</li>
+          <li><i class="fa-solid fa-check"></i> Weekly or 4x-monthly visits</li>
           <li><i class="fa-solid fa-check"></i> Eco-friendly products</li>
           <li><i class="fa-solid fa-check"></i> Bespoke all-round sanitation </li>
           <li><i class="fa-solid fa-check"></i> Deep upholsteries cleaning</li>
@@ -117,92 +117,7 @@
   </div>
 </section>
 
-<!-- CALCULATOR -->
-<section id="calculator">
-  <div class="container">
-    <div class="section-head reveal">
-      <span class="section-tag"><i class="fa-solid fa-calculator"></i> Build Your Own</span>
-      <h2>Live-Pricing Calculator</span></h2>
-      <p>Our budget-friendly calculator helps you customize every details, choose the features needed and see your estimated price update instantly.</p>
-    </div>
-    <div class="calc-grid">
-      <div class="glass calculator reveal">
-        <div class="calc-option-group">
-          <label><i class="fa-solid fa-house"></i> Property Type</label>
-          <div class="pill-options" id="propertyTypeGroup">
-            <button type="button" class="pill active" data-value="apartment">Apartment</button>
-            <button type="button" class="pill" data-value="house">House</button>
-            <button type="button" class="pill" data-value="villa">Villa / Estate</button>
-            <button type="button" class="pill" data-value="office">Office</button>
-            <button type="button" class="pill" data-value="retail">Retail</button>
-          </div>
-        </div>
 
-        <div class="calc-option-group">
-          <label><i class="fa-solid fa-door-open"></i> Number of Rooms: <span class="range-val" data-range-out="roomsRange">2</span></label>
-          <div class="range-row"><input type="range" id="roomsRange" min="1" max="10" value="2"></div>
-        </div>
-
-        <div class="calc-option-group">
-          <label><i class="fa-solid fa-bath"></i> Number of Bathrooms: <span class="range-val" data-range-out="bathroomsRange">1</span></label>
-          <div class="range-row"><input type="range" id="bathroomsRange" min="1" max="6" value="1"></div>
-        </div>
-
-        <div class="calc-option-group">
-          <label><i class="fa-solid fa-broom"></i> Type of Cleaning</label>
-          <div class="pill-options" id="cleaningTypeGroup">
-            <button type="button" class="pill active" data-value="standard">Standard</button>
-            <button type="button" class="pill" data-value="deep">Deep Clean</button>
-            <button type="button" class="pill" data-value="moveinout">Move In/Out</button>
-            <button type="button" class="pill" data-value="postconstruction">Post-Construction</button>
-            <button type="button" class="pill" data-value="commercial">Commercial</button>
-          </div>
-        </div>
-
-        <div class="calc-option-group">
-          <label><i class="fa-solid fa-repeat"></i> Cleaning Frequency</label>
-          <div class="pill-options" id="frequencyGroup">
-            <button type="button" class="pill" data-value="once">One-Time</button>
-            <button type="button" class="pill active" data-value="weekly">Weekly</button>
-            <button type="button" class="pill" data-value="biweekly">Bi-Weekly</button>
-            <button type="button" class="pill" data-value="monthly">Monthly</button>
-          </div>
-        </div>
-
-        <div class="calc-option-group">
-          <label><i class="fa-solid fa-clock"></i> Estimated Hours per Visit: <span class="range-val" data-range-out="hoursRange">3</span> hrs</label>
-          <div class="range-row"><input type="range" id="hoursRange" min="1" max="8" value="3"></div>
-        </div>
-
-        <div class="calc-option-group">
-          <label><i class="fa-solid fa-dollar-sign"></i> Hourly Rate: $<span class="range-val" data-range-out="hourlyRateRange">25</span>/hr</label>
-          <div class="range-row"><input type="range" id="hourlyRateRange" min="15" max="60" step="5" value="25"></div>
-        </div>
-
-        <div class="calc-option-group">
-          <label for="cleaningDate"><i class="fa-solid fa-calendar-days"></i> Preferred Start Date</label>
-          <input type="date" id="cleaningDate">
-        </div>
-      </div>
-
-      <div class="glass calc-summary reveal">
-        <h3><i class="fa-solid fa-receipt"></i> Your Estimate</h3>
-        <div class="summary-line"><span>Property Type</span><strong id="sumProperty">Apartment</strong></div>
-        <div class="summary-line"><span>Rooms / Bathrooms</span><strong id="sumRooms">2 rooms / 1 bathrooms</strong></div>
-        <div class="summary-line"><span>Cleaning Type</span><strong id="sumCleaning">Standard</strong></div>
-        <div class="summary-line"><span>Frequency</span><strong id="sumFrequency">Weekly</strong></div>
-        <div class="summary-line"><span>Duration</span><strong id="sumHours">3 hrs @ $25/hr</strong></div>
-        <div class="summary-line"><span>Billing Cycle</span><strong id="sumBilling">Monthly</strong></div>
-        <div class="summary-line"><span>Start Date</span><strong id="sumDate">Not selected</strong></div>
-        <div class="summary-total">
-          <div><strong id="calcTotal">$0</strong><br><span id="calcTotalSuffix">/visit</span></div>
-          <a href="create-account.html?plan=custom" id="bookCalculatorPlan" class="btn btn-primary">Book This Plan</a>
-        </div>
-        <p class="form-note" id="calcSummary">Estimate only — final pricing confirmed after a free consultation.</p>
-      </div>
-    </div>
-  </div>
-</section>
 
 
 <!-- SUBSCRIPTION SIGN-UP FORM -->
