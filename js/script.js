@@ -180,8 +180,8 @@ document.addEventListener('DOMContentLoaded', () => {
    Subscription Pricing Calculator
    ========================================================================== */
 function initSubscriptionCalculator(){
-  const propertyRates = { apartment: 60, house: 85, villa: 140, office: 110, retail: 130 };
-  const cleaningFactors = { standard: 1, deep: 1.45, moveinout: 1.6, postconstruction: 1.85, commercial: 1.3 };
+  const propertyRates = { apartment: 5, house: 5, villa: 5, office: 5, retail: 5 };
+  const cleaningFactors = { standard: 1.0, deep: 1.50, moveinout: 1.8, postconstruction: 2.0, commercial: 2.0 };
   const frequencyDiscounts = { once: 1, weekly: 0.85, biweekly: 0.9, monthly: 0.95 };
 
   function getActivePill(groupId, fallback){
@@ -204,11 +204,11 @@ function initSubscriptionCalculator(){
     const isAnnual = document.getElementById('billingSwitch')?.checked;
 
     const base = propertyRates[property] || 60;
-    const roomCost = rooms * 14;
-    const bathroomCost = bathrooms * 12;
+    const roomCost = rooms * 5;
+    const bathroomCost = bathrooms * 5;
     const hourCost = hours * hourlyRate;
-    const factor = cleaningFactors[cleaningType] || 1;
-    const freqDiscount = frequencyDiscounts[frequency] || 1;
+    const factor = cleaningFactors[cleaningType] || 5;
+    const freqDiscount = frequencyDiscounts[frequency] || 5;
 
     let subtotal = (base + roomCost + bathroomCost + hourCost) * factor * freqDiscount;
     let annualDiscountPct = 0;
