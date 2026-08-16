@@ -13,6 +13,10 @@
 
 declare(strict_types=1);
 
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', 1);
+
 if (!function_exists('mc_env')) {
     function mc_env(string $key, string $default = ''): string
     {
