@@ -21,6 +21,7 @@ function mc_jwt_issue(array $claims, array $authConfig): string
     return JWT::encode($payload, $authConfig['jwt_secret'], $authConfig['jwt_algo']);
 }
 
+
 /**
  * @return array<string,mixed>|null Decoded claims, or null if invalid/expired.
  */
@@ -47,3 +48,4 @@ function mc_jwt_set_cookie(string $token, array $authConfig): void
         'samesite' => 'Strict',
     ]);
 }
+
