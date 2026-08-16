@@ -255,14 +255,76 @@ integration without code changes:
 5. (Optional) run `npm run build` as part of your build step if you want
    the minified dashboard bundle instead of the raw ES modules.
 
+---
 
+## Troubleshooting: signup/login failing in production
 
+### Symptom
 
+`create-account.html` / the sign-in form show a generic
+**"Sorry, we could not create your account right now. Please try again
+later."** or **"Sorry, sign-in is unavailable right now."**, even though
+`SUPABASE_DB_URL` looks correct in Railway's Variables tab.
 
+### Why the message is so generic
 
+`php/auth-signup.php` and `php/auth-login.php` deliberately catch **every**
+internal error and show a friendly message instead of leaking database
+internals to visitors (`catch (Throwable $e) { error_log(...); mc_respond
+(false, 'Sorry, ...'); }`). The real reason is always written to the
+server's error log, never sent to the browser — so step 1 is always to go
+find that real reason.
 
+### Step 1 — read the real error in Railway's logs
 
+Open your Railway service → **Deployments** → the active deployment →
+**View Logs** (or run `railway logs` with the Railway CLI), then search for
+`Manor Cares signup error` or `Manor Cares login error`. Whatever follows
+that prefix is the actual PDO/Postgres message. Match it against the table
+below — this repo's [php/db.php](php/db.php) now logs an extra, categorized
+hint line right before it (`Manor Cares DB connection failed (...)`) to
+save you the guesswork.
 
+| What the log says | Root cause | Fix |
+| --- | --- | --- |
+| `Authentication credentials are invalid. Please reconnect with fresh credentials to restore pool functionality` | Supabase's **pooler (Supavisor)** is rejecting the password. This happens when the DB password was changed **outside the Supabase dashboard** (e.g. via a raw `ALTER ROLE ... PASSWORD`, or the pooler simply hasn't picked up a very recent change) — the direct connection can keep working with the new password while the pooler still rejects it. | In Supabase: **Project Settings → Database → Reset Database Password** (this is the one action guaranteed to sync to *both* the direct and pooler endpoints). Copy the freshly-generated connection string immediately after, and paste the whole thing into Railway's `SUPABASE_DB_URL`. |
+| `password authentication failed for user "postgres"` (or `postgres.<ref>`) | The password in `SUPABASE_DB_URL` is simply wrong — most often the literal `[YOUR-PASSWORD]` placeholder brackets from Supabase's dashboard were left around the real password. `db.php` now auto-strips a *matching* pair of brackets and logs a warning when it does this, but the value should still be corrected at the source. | Re-copy the connection string from Supabase and replace `[YOUR-PASSWORD]` (**brackets included**) with the real password. |
+| `Tenant or user not found` / `SASL` errors | Host/user mismatch — the **pooler** connection needs a username like `postgres.<project-ref>` (with a dot), the **direct** connection just needs `postgres`. Mixing a pooler host with a direct-style username (or vice versa) fails auth. | Copy the *entire* connection string from a single tab in Supabase (Transaction pooler recommended for Railway) — don't hand-assemble host/user from different tabs. |
+| Request just hangs for ~30-60s then fails, no specific PDO message | `SUPABASE_DB_URL` uses Supabase's **direct connection** host (`db.<project-ref>.supabase.co`), which is **IPv6-only** unless you've bought Supabase's IPv4 add-on. Railway's network is IPv4-only, so it can never reach that host — it just times out. `db.php` now caps the connection attempt at 10 seconds so this fails fast instead of hanging the request. | Switch to the **Transaction pooler** connection string (Project Settings → Database → Connection string → *Transaction pooler*, host looks like `aws-0-<region>.pooler.supabase.com`, port `6543`) — it's IPv4-compatible. |
+| `could not translate host name "..." to address` | Typo in the host, or the Supabase project is paused (free-tier projects auto-pause after a week of inactivity). | Re-copy the connection string; if the Supabase dashboard shows the project as "Paused", click **Restore/Resume** first. |
+| No new log line appears at all after you changed the variable | The change hasn't reached the running container yet. | See Step 2. |
 
+### Step 2 — confirm Railway actually redeployed with the new value
 
+Environment variables are baked into a container at process start — a
+running PHP process never sees a variable change until it restarts.
+Changing a variable in Railway's **Variables** tab normally triggers an
+automatic redeploy, but confirm it: open **Deployments** and check that the
+newest deployment's timestamp is *after* the moment you saved the variable.
+If not, click **Deploy** manually.
 
+### Step 3 — self-test the exact variable Railway has, without deploying
+
+Use the new [php/db-check.php](php/db-check.php) script together with the
+[Railway CLI](https://docs.railway.app/guides/cli), which can run a command
+locally using your **real, currently-deployed** Railway variables:
+
+```bash
+railway login
+railway link                       # select this project/service
+railway run php php/db-check.php
+```
+
+This prints the host/port/database/user Manor Cares actually resolved from
+`SUPABASE_DB_URL` (password never shown — only its length, plus a warning
+if it's still bracket-wrapped), flags a direct-connection (IPv6-only) host,
+then attempts a real connection so you see the exact PDO error immediately
+in your own terminal instead of digging through Railway's log viewer.
+
+### Step 4 — remember `.env` is local-only
+
+`php/db.php`'s dotenv loader only reads `.env` when the file exists on
+disk, and Railway never receives it — it's git-ignored on purpose (see
+`.gitignore`). Fixing your local `.env` has **zero effect on production**;
+the value must be corrected in Railway's **Variables** tab for the actual
+deployed service.
