@@ -163,6 +163,9 @@ function mc_db(): PDO
             str_contains($e->getMessage(), 'Tenant or user not found'),
             str_contains($e->getMessage(), 'SASL') =>
                 'pooler/direct mismatch — the pooler needs a user like "postgres.<project-ref>", the direct connection just "postgres"; copy the whole string from one tab, don\'t mix hosts/users',
+            str_contains($e->getMessage(), 'ENOIDENTIFIER'),
+            str_contains($e->getMessage(), 'no tenant identifier provided') =>
+                'pooler username is missing the "." + project-ref suffix (e.g. use "' . $user . '.<project-ref>" instead of just "' . $user . '") — every username on the Supavisor pooler must end in .<project-ref>, even custom roles like manor_app',
             str_contains($e->getMessage(), 'could not translate host name') =>
                 'DNS lookup failed — check for a typo in the host, or the Supabase project may be paused',
             str_contains($e->getMessage(), 'timed out') || str_contains($e->getMessage(), 'timeout') =>
