@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>One-Time Payment | Manor Cares</title>
+<meta name="description" content="Complete your one-time payment for your selected Manor Cares cleaning plan.">
+<link rel="icon" type="image/svg+xml" href="Media/logo.svg">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="alt-page">
+
+<header class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="brand"><span class="brand-mark"><img src="Media/logo.svg" alt="Manor Cares M-C logo"></span><span class="brand-text">Manor Cares</span></a>
+    <nav class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="services.html">Services</a>
+      <a href="subscription.html" class="active">Subscription</a>
+      <a href="contact.html">Contact Us</a>
+      <a href="subscription.html" class="nav-quote-mobile">Get a Quote</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light theme"><i class="fa-solid fa-moon"></i></button>
+      <a href="contact.html" class="btn btn-primary btn-sm">Talk To Sales</a>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- ONE-TIME PAYMENT FRAME (the only section on this page) -->
+<section class="payment-frame-section">
+  <div class="frame-wrap">
+    <iframe id="paymentFrame" title="Manor Cares Payment" allow="payment *" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    <div class="payment-fallback" id="paymentFallback">
+      <i class="fa-solid fa-triangle-exclamation" style="font-size:2rem; color:var(--clr-blue);"></i>
+      <h2 style="font-size:1.3rem;">Payment link unavailable</h2>
+      <p style="color:var(--text-soft); max-width:420px;">We couldn't find a payment link for this plan. Please go back to the subscription page and choose a plan again, or contact us for help.</p>
+      <a href="subscription.html" class="btn btn-primary">Back to Plans</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="brand" style="color:#fff;"><span class="brand-mark"><img src="Media/logo.svg" alt="Manor Cares M-C logo"></span>Manor Cares</a>
+        <p>Manor Cares delivers 5-star luxury cleaning experiences for homes, offices and estates, trusted by thousands for spotless, healthy spaces since 2026.</p>
+        <div class="footer-socials">
+          <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+          <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="subscription.html">Subscription</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="services.html">Residential Cleaning</a></li>
+          <li><a href="services.html">Commercial Cleaning</a></li>
+          <li><a href="services.html">Deep Cleaning</a></li>
+          <li><a href="services.html">Move In/Out Cleaning</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><i class="fa-solid fa-envelope"></i>  Support@manor-cares.com</li>
+           <li><i class="fa-solid fa-phone"></i>  +234 (806) 496-4366</li>
+           <li><i class="fa-solid fa-location-dot"></i> Sango-UI Road, Ibadan.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Manor Cares. All rights reserved.</p>
+      <p>Crafted with care for spotless living.</p>
+    </div>
+  </div>
+</footer>
+
+
+<script src="js/script.js"></script>
+<script>
+  // Each pricing plan on subscription.html links here as
+  // one-time-payment.html?plan=<id>. Paste each plan's real payment page
+  // URL below — the matching plan's iframe will load it automatically.
+  (function(){
+    const PAYMENT_LINKS = {
+      starter:   '',
+      essential: '',
+      signature: '',
+      deluxe:    '',
+      estate:    '',
+      platinum:  ''
+    };
+
+    const params = new URLSearchParams(window.location.search);
+    const plan = (params.get('plan') || '').toLowerCase();
+    const link = PAYMENT_LINKS[plan];
+
+    const frame = document.getElementById('paymentFrame');
+    const fallback = document.getElementById('paymentFallback');
+
+    if(link){
+      frame.src = link;
+    } else {
+      frame.style.display = 'none';
+      fallback.classList.add('show');
+    }
+  })();
+</script>
+</body>
+</html>
