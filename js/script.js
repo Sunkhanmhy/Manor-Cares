@@ -56,6 +56,17 @@ document.addEventListener('DOMContentLoaded', () => {
     scrollTopBtn.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
   }
 
+  /* ---------- One-time payment page: iframe height auto-fits the viewport ---------- */
+  const paymentFrame = document.getElementById('paymentFrame');
+  if(paymentFrame && navbar){
+    const setFrameHeight = () => {
+      document.documentElement.style.setProperty('--navbar-h', navbar.offsetHeight + 'px');
+    };
+    setFrameHeight();
+    window.addEventListener('resize', setFrameHeight);
+    window.addEventListener('orientationchange', setFrameHeight);
+  }
+
   /* ---------- Reveal on scroll ---------- */
   const revealEls = document.querySelectorAll('.reveal');
   const io = new IntersectionObserver((entries) => {
