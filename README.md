@@ -40,6 +40,9 @@ via **Resend** (or SMTP/PHPMailer), and signed payment webhooks.
    ```bash
    cp .env.example .env
    php -r "echo bin2hex(random_bytes(32));"   # paste into JWT_SECRET
+
+
+
    ```
 3. Follow **§2 (Database)** and **§3 (OAuth)** below to fill in your
    Supabase values, then run the migration and start the app:
@@ -63,6 +66,9 @@ npm run build    # outputs assets/dist/{dashboard,admin}.js
 ```
 
 ---
+
+
+
 
 
 
