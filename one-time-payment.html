@@ -32,13 +32,23 @@
 
 <!-- ONE-TIME PAYMENT FRAME (the only section on this page) -->
 <section class="payment-frame-section">
-  <div class="frame-wrap">
-    <iframe id="paymentFrame" title="Manor Cares Payment" allow="payment *" referrerpolicy="no-referrer-when-downgrade"></iframe>
-    <div class="payment-fallback" id="paymentFallback">
-      <i class="fa-solid fa-triangle-exclamation" style="font-size:2rem; color:var(--clr-blue);"></i>
-      <h2 style="font-size:1.3rem;">Payment link unavailable</h2>
-      <p style="color:var(--text-soft); max-width:420px;">We couldn't find a payment link for this plan. Please go back to the subscription page and choose a plan again, or contact us for help.</p>
-      <a href="subscription.html" class="btn btn-primary">Back to Plans</a>
+  <div class="payment-layout">
+    <aside class="glass plan-details-col" id="planDetailsCol">
+      <span class="section-tag"><i class="fa-solid fa-file-invoice-dollar"></i> Your Selected Plan</span>
+      <h2 id="planName">Manor Cares Plan</h2>
+      <p id="planTagline" style="color:var(--text-soft); font-size:.9rem;"></p>
+      <div class="price" id="planPrice"></div>
+      <ul id="planFeatures"></ul>
+      <a href="subscription.html" class="btn btn-outline btn-block"><i class="fa-solid fa-arrow-left"></i> Change Plan</a>
+    </aside>
+    <div class="frame-col">
+      <iframe id="paymentFrame" title="Manor Cares Payment" allow="payment *" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="payment-fallback" id="paymentFallback">
+        <i class="fa-solid fa-triangle-exclamation" style="font-size:2rem; color:var(--clr-blue);"></i>
+        <h2 style="font-size:1.3rem;">Payment link unavailable</h2>
+        <p style="color:var(--text-soft); max-width:420px;">We couldn't find a payment link for this plan. Please go back to the subscription page and choose a plan again, or contact us for help.</p>
+        <a href="subscription.html" class="btn btn-primary">Back to Plans</a>
+      </div>
     </div>
   </div>
 </section>
@@ -62,6 +72,7 @@
           <li><a href="about.html">About Us</a></li>
           <li><a href="services.html">Services</a></li>
           <li><a href="subscription.html">Subscription</a></li>
+          <li><a href="become-affiliate.html">Become An Affiliate</a></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -105,9 +116,49 @@
       platinum:  ''
     };
 
+    // Mirrors the plan cards on subscription.html, shown in the left column.
+    const PLAN_DETAILS = {
+      starter: {
+        name: 'Starter', tagline: 'Studios & single rooms', price: '₦49,999', suffix: '/mnt',
+        features: ['Up to 1 bedroom, 1 kitchen', 'Maximum (1) restroom per visit', 'Standard cleaning checklist', 'Bi-weekly or monthly visits', 'Eco-friendly products', 'Bespoke indoor cleaning', 'Shared cleaning team', 'Emergency addons cleaning']
+      },
+      essential: {
+        name: 'Essential', tagline: 'Apartments & small homes', price: '₦99,999', suffix: '/mnt',
+        features: ['Up to 2 bedrooms, 1 kitchen', 'Maximum (2) restrooms per visit', 'Standard cleaning checklist', 'Weekly or 4x-monthly visits', 'Eco-friendly products', 'Bespoke indoor cleaning', 'Dedicated cleaning team', 'Soft-upholsteries cleaning', 'Bespoke outdoor cleaning', 'Emergency addons cleaning']
+      },
+      signature: {
+        name: 'Signature', tagline: 'Houses & growing families', price: '₦199,999', suffix: '/mtn',
+        features: ['Up to 4 bedrooms, 3 restrooms', 'Deep-clean checklist add-ons', 'Weekly or 4x-monthly visits', 'Eco-friendly products', 'Bespoke indoor sanitation', 'Hard-upholsteries cleaning', 'On-demand surface whitening', 'Bespoke outdoor sanitation', 'Emergency addons cleaning', 'Priority scheduling & maintenance']
+      },
+      deluxe: {
+        name: 'Deluxe', tagline: 'Townhouses & larger families', price: '₦299,999', suffix: '/mtn',
+        features: ['Up to 5 bedrooms, 4 restrooms', 'Deep-clean checklist add-ons', 'Weekly or 4x-monthly visits', 'Eco-friendly products', 'Bespoke indoor sanitation', 'Hard-upholsteries cleaning', 'On-demand surface whitening', 'Bespoke outdoor sanitation', 'Emergency addons cleaning', 'Priority scheduling & maintenance']
+      },
+      estate: {
+        name: 'Estate', tagline: 'Villas, offices & estates', price: '₦399,999', suffix: '/mtn',
+        features: ['Up to 7 bedrooms, 5 restrooms', 'Deep-clean checklist add-ons', 'Weekly or 4x-monthly visits', 'Eco-friendly products', 'Bespoke all-round sanitation', 'Deep upholsteries cleaning', 'On-demand surface whitening', 'Emergency addons cleaning', 'On-demand laundry addons services', 'Priority scheduling & maintenance']
+      },
+      platinum: {
+        name: 'Platinum', tagline: 'Commercial complexes & enterprises', price: '₦599,999', suffix: '/mtn',
+        features: ['Unlimited bedrooms & restrooms', 'Deep-clean checklist add-ons', 'Daily, weekly or 4x-monthly visits', 'Eco-friendly products', 'Bespoke all-round sanitation', 'Deep upholsteries cleaning', 'On-demand surface whitening', 'Emergency addons cleaning', 'On-demand laundry addons services', 'Dedicated account manager']
+      }
+    };
+
     const params = new URLSearchParams(window.location.search);
     const plan = (params.get('plan') || '').toLowerCase();
     const link = PAYMENT_LINKS[plan];
+    const details = PLAN_DETAILS[plan];
+
+    if(details){
+      document.getElementById('planName').textContent = details.name;
+      document.getElementById('planTagline').textContent = details.tagline;
+      document.getElementById('planPrice').innerHTML = `${details.price}<span>${details.suffix}</span>`;
+      document.getElementById('planFeatures').innerHTML = details.features
+        .map(f => `<li><i class="fa-solid fa-check"></i> ${f}</li>`).join('');
+    } else {
+      document.getElementById('planTagline').textContent = 'No plan selected — choose one from the subscription page.';
+      document.getElementById('planPrice').remove();
+    }
 
     const frame = document.getElementById('paymentFrame');
     const fallback = document.getElementById('paymentFallback');
