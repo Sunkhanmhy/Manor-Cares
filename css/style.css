@@ -615,14 +615,62 @@ body.alt-page section{ padding:50px 0; }
 
 
 /* ==========================================================================
-   One-time payment page — full-viewport responsive iframe
+   One-time payment page — 40/60 split, full-viewport responsive iframe
    ========================================================================== */
 :root{ --navbar-h: 74px; }
 body.alt-page section.payment-frame-section{ padding:0; }
-.payment-frame-section .frame-wrap{ position:relative; width:100%; height:calc(100vh - var(--navbar-h)); min-height:420px; }
-.payment-frame-section iframe{ position:absolute; inset:0; width:100%; height:100%; border:0; display:block; }
+.payment-layout{ display:flex; align-items:stretch; width:100%; height:calc(100vh - var(--navbar-h)); min-height:520px; }
+
+.plan-details-col{
+  width:40%; flex-shrink:0; overflow-y:auto; padding:44px 36px;
+  border-radius:0; border-width:0 1px 0 0;
+}
+.plan-details-col .price{ font-size:2.4rem; font-family:'Playfair Display',serif; margin:14px 0 6px; color:var(--clr-blue); }
+.plan-details-col .price span{ font-size:1rem; color:var(--text-soft); font-family:'Poppins',sans-serif; }
+.plan-details-col ul{ margin:22px 0; }
+.plan-details-col ul li{ padding:9px 0; color:var(--text-soft); font-size:.92rem; display:flex; gap:10px; align-items:flex-start; }
+.plan-details-col ul li i{ color:var(--clr-green); margin-top:3px; }
+
+.frame-col{ width:60%; position:relative; }
+.frame-col iframe{ position:absolute; inset:0; width:100%; height:100%; border:0; display:block; }
 .payment-fallback{
   position:absolute; inset:0; display:none; flex-direction:column; align-items:center; justify-content:center;
   gap:14px; text-align:center; padding:32px; background:var(--bg-gradient-page);
 }
 .payment-fallback.show{ display:flex; }
+
+@media (max-width:1024px){
+  .payment-layout{ flex-direction:column; height:auto; }
+  .plan-details-col{ width:100%; max-height:45vh; border-width:0 0 1px 0; }
+  .frame-col{ width:100%; height:65vh; }
+}
+
+
+
+
+/* ==========================================================================
+   Become An Affiliate — countdown timer + glassmorphism auth card
+   ========================================================================== */
+.countdown-grid{ display:flex; justify-content:center; gap:20px; flex-wrap:wrap; margin:34px 0 8px; }
+.countdown-box{
+  min-width:100px; padding:22px 10px; border-radius:var(--radius-md); text-align:center;
+  background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.35);
+  backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+}
+.countdown-box .num{ display:block; font-size:2.4rem; font-family:'Playfair Display',serif; font-weight:700; color:#fff; line-height:1; }
+.countdown-box .label{ display:block; margin-top:8px; font-size:.76rem; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,0.85); }
+
+.affiliate-auth-card{ max-width:640px; margin:0 auto; }
+.affiliate-tabs{ display:flex; gap:6px; margin-bottom:28px; border-bottom:1px solid var(--glass-border); }
+.affiliate-tab{
+  flex:1; background:transparent; border:none; padding:14px 10px; font-size:1rem; font-weight:600;
+  color:var(--text-soft); border-bottom:3px solid transparent; transition:var(--transition); cursor:pointer;
+}
+.affiliate-tab:hover{ color:var(--clr-green); }
+.affiliate-tab.active{ color:var(--clr-blue); border-bottom-color:var(--clr-green); }
+
+@media (max-width:640px){
+  .countdown-box{ min-width:68px; padding:16px 6px; }
+  .countdown-box .num{ font-size:1.6rem; }
+  .affiliate-tab{ font-size:.88rem; padding:12px 6px; }
+}
