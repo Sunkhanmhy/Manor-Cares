@@ -32,22 +32,24 @@
 
 <!-- ONE-TIME PAYMENT FRAME (the only section on this page) -->
 <section class="payment-frame-section">
-  <div class="payment-layout">
-    <aside class="glass plan-details-col" id="planDetailsCol">
-      <span class="section-tag"><i class="fa-solid fa-file-invoice-dollar"></i> Your Selected Plan</span>
-      <h2 id="planName">Manor Cares Plan</h2>
-      <p id="planTagline" style="color:var(--text-soft); font-size:.9rem;"></p>
-      <div class="price" id="planPrice"></div>
-      <ul id="planFeatures"></ul>
-      <a href="subscription.html" class="btn btn-outline btn-block"><i class="fa-solid fa-arrow-left"></i> Change Plan</a>
-    </aside>
-    <div class="frame-col">
-      <iframe id="paymentFrame" title="Manor Cares Payment" allow="payment *" referrerpolicy="no-referrer-when-downgrade"></iframe>
-      <div class="payment-fallback" id="paymentFallback">
-        <i class="fa-solid fa-triangle-exclamation" style="font-size:2rem; color:var(--clr-blue);"></i>
-        <h2 style="font-size:1.3rem;">Payment link unavailable</h2>
-        <p style="color:var(--text-soft); max-width:420px;">We couldn't find a payment link for this plan. Please go back to the subscription page and choose a plan again, or contact us for help.</p>
-        <a href="subscription.html" class="btn btn-primary">Back to Plans</a>
+  <div class="container">
+    <div class="payment-layout">
+      <aside class="glass plan-details-col" id="planDetailsCol">
+        <span class="section-tag"><i class="fa-solid fa-file-invoice-dollar"></i> Your Selected Plan</span>
+        <h2 id="planName">Manor Cares Plan</h2>
+        <p id="planTagline" style="color:var(--text-soft); font-size:.9rem;"></p>
+        <div class="price" id="planPrice"></div>
+        <ul id="planFeatures"></ul>
+        <a href="subscription.html" class="btn btn-outline btn-block"><i class="fa-solid fa-arrow-left"></i> Change Plan</a>
+      </aside>
+      <div class="frame-col">
+        <iframe id="paymentFrame" title="Manor Cares Payment" allow="payment *" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <div class="payment-fallback" id="paymentFallback">
+          <i class="fa-solid fa-triangle-exclamation" style="font-size:2rem; color:var(--clr-blue);"></i>
+          <h2 style="font-size:1.3rem;">Payment link unavailable</h2>
+          <p style="color:var(--text-soft); max-width:420px;">We couldn't find a payment link for this plan. Please go back to the subscription page and choose a plan again, or contact us for help.</p>
+          <a href="subscription.html" class="btn btn-primary">Back to Plans</a>
+        </div>
       </div>
     </div>
   </div>
