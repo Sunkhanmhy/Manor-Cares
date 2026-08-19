@@ -112,19 +112,19 @@
   // URL below — the matching plan's iframe will load it automatically.
   (function(){
     const PAYMENT_LINKS = {
-      starter:   '',
-      essential: '',
-      signature: '',
-      deluxe:    '',
-      estate:    '',
-      platinum:  ''
+      starter:   'https://paystack.shop/pay/manor-cares-starters',
+      essential: 'https://paystack.shop/pay/manor-cares-essential',
+      signature: 'https://paystack.shop/pay/manor-cares-signature',
+      deluxe:    'https://paystack.shop/pay/manor-cares-deluxe',
+      estate:    'https://paystack.shop/pay/manor-cares-estate',
+      platinum:  'https://paystack.shop/pay/manor-cares-platinum'
     };
 
     // Mirrors the plan cards on subscription.html, shown in the left column.
     const PLAN_DETAILS = {
       starter: {
         name: 'Starter', tagline: 'Studios & single rooms', price: '₦49,999', suffix: '/mnt',
-        features: ['Up to 1 bedroom, 1 kitchen', 'Maximum (1) restroom per visit', 'Standard cleaning checklist', 'Bi-weekly or monthly visits', 'Eco-friendly products', 'Bespoke indoor cleaning', 'Shared cleaning team', 'Emergency addons cleaning']
+        features: ['Up to 1 bedroom, 1 kitchen', 'Maximum (1) restroom per visit', 'Standard cleaning checklist', 'Weekly or 4x-monthly visits', 'Eco-friendly products', 'Bespoke indoor cleaning', 'Shared cleaning team']
       },
       essential: {
         name: 'Essential', tagline: 'Apartments & small homes', price: '₦99,999', suffix: '/mnt',
