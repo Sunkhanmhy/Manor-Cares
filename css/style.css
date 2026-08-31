@@ -432,7 +432,7 @@ section{ padding:30px 0; position:relative; }
 .save-badge{ background:rgba(18,163,117,0.15); color:var(--clr-green-dark); font-weight:700; font-size:.78rem; padding:4px 12px; border-radius:50px; }
 [data-theme="dark"] .save-badge{ color:#3be9b8; }
 
-.pricing-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:28px; margin-bottom:70px; }
+.pricing-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:28px; margin-bottom:0px; }
 .pricing-card{ padding:38px 30px; text-align:center; position:relative; }
 .pricing-card.popular{ border:2px solid var(--clr-green); transform:scale(1.04); }
 .pricing-card .badge-pop{ position:absolute; top:-14px; left:50%; transform:translateX(-50%); background:linear-gradient(100deg,var(--clr-blue),var(--clr-green)); color:#fff; font-size:.75rem; font-weight:700; padding:6px 18px; border-radius:50px; }
@@ -648,29 +648,3 @@ body.alt-page section.payment-frame-section .container{ height:calc(100vh - var(
 
 
 
-/* ==========================================================================
-   Become An Affiliate — countdown timer + glassmorphism auth card
-   ========================================================================== */
-.countdown-grid{ display:flex; justify-content:center; gap:20px; flex-wrap:wrap; margin:34px 0 8px; }
-.countdown-box{
-  min-width:100px; padding:22px 10px; border-radius:var(--radius-md); text-align:center;
-  background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.35);
-  backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
-}
-.countdown-box .num{ display:block; font-size:2.4rem; font-family:'Playfair Display',serif; font-weight:700; color:#fff; line-height:1; }
-.countdown-box .label{ display:block; margin-top:8px; font-size:.76rem; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,0.85); }
-
-.affiliate-auth-card{ max-width:640px; margin:0 auto; }
-.affiliate-tabs{ display:flex; gap:6px; margin-bottom:28px; border-bottom:1px solid var(--glass-border); }
-.affiliate-tab{
-  flex:1; background:transparent; border:none; padding:14px 10px; font-size:1rem; font-weight:600;
-  color:var(--text-soft); border-bottom:3px solid transparent; transition:var(--transition); cursor:pointer;
-}
-.affiliate-tab:hover{ color:var(--clr-green); }
-.affiliate-tab.active{ color:var(--clr-blue); border-bottom-color:var(--clr-green); }
-
-@media (max-width:640px){
-  .countdown-box{ min-width:68px; padding:16px 6px; }
-  .countdown-box .num{ font-size:1.6rem; }
-  .affiliate-tab{ font-size:.88rem; padding:12px 6px; }
-}
