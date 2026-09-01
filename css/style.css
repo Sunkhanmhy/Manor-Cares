@@ -623,12 +623,20 @@ body.alt-page section.payment-frame-section .container{ height:calc(100vh - var(
 .plan-details-col{
   width:40%; flex-shrink:0; overflow-y:auto; padding:44px 36px;
   border-radius:0; border-width:0 1px 0 0;
+  /* use same visual background as footer for this partition */
+  background: var(--bg-gradient);
+  color: var(--text-invert);
+  border-right: 1px solid rgba(255,255,255,0.12);
 }
-.plan-details-col .price{ font-size:2.4rem; font-family:'Playfair Display',serif; margin:14px 0 6px; color:var(--clr-blue); }
-.plan-details-col .price span{ font-size:1rem; color:var(--text-soft); font-family:'Poppins',sans-serif; }
+.plan-details-col .price{ font-size:2.4rem; font-family:'Playfair Display',serif; margin:14px 0 6px; color:var(--text-invert); }
+.plan-details-col .price span{ font-size:1rem; color:rgba(255,255,255,0.9); font-family:'Poppins',sans-serif; }
 .plan-details-col ul{ margin:22px 0; }
-.plan-details-col ul li{ padding:9px 0; color:var(--text-soft); font-size:.92rem; display:flex; gap:10px; align-items:flex-start; }
+.plan-details-col ul li{ padding:9px 0; color:rgba(255,255,255,0.9); font-size:.92rem; display:flex; gap:10px; align-items:flex-start; }
 .plan-details-col ul li i{ color:var(--clr-green); margin-top:3px; }
+
+/* Ensure the left/right partitions don't undesirably shrink; on narrow viewports they stack */
+.payment-layout{ gap:0; }
+.payment-layout > *{ min-width:0; }
 
 .frame-col{ width:60%; position:relative; }
 .frame-col iframe{ position:absolute; inset:0; width:100%; height:100%; border:0; display:block; }
