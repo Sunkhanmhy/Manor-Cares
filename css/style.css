@@ -17,8 +17,10 @@
   --clr-white:#ffffff;
   --clr-gold-dark:#0a6b4d;
 
-  --bg-gradient: linear-gradient(135deg, var(--clr-blue) 0%, var(--clr-green) 55%, var(--clr-gold-dark) 100%);
-  --bg-gradient-soft: linear-gradient(135deg, rgba(21,101,192,0.92) 0%, rgba(18,163,117,0.90) 55%, rgba(184,134,11,0.92) 100%);
+  /* Match the reference dark-mode palette for the shared hero/footer surfaces
+     while keeping the overall page background light. */
+  --bg-gradient: linear-gradient(135deg, #072849 0%, #06392c 55%, #0d1720 100%);
+  --bg-gradient-soft: linear-gradient(135deg, rgba(7,40,73,0.92) 0%, rgba(6,57,44,0.9) 55%, rgba(13,23,32,0.95) 100%);
   --bg-gradient-page: linear-gradient(160deg, #eaf6f2 0%, #e6f1fb 45%, #ffffff 100%);
 
   --text-main:#0f2437;
