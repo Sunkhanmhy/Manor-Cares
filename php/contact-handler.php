@@ -1,6 +1,6 @@
 <?php
 /**
- * Manor Cares — Contact form handler
+ * Havelle Agency — Contact form handler
  *
  * Receives the "Send Us A Message" form submission from contact.html,
  * validates and sanitizes the input, then sends it via PHPMailer to the
@@ -129,14 +129,14 @@ try {
     // Reply-To lets support reply directly to the visitor.
     mc_send_mail(
         ['email' => $config['to_email'], 'name' => $config['to_name']],
-        'Manor Cares Contact Form: ' . $subject,
+        'Havelle Agency Contact Form: ' . $subject,
         $html,
         $text,
         ['email' => $email, 'name' => $name]
     );
 
-    mc_respond(true, "Thank you, {$name}! Your message has been sent — a Manor Cares representative will reach out within 24 hours.");
+    mc_respond(true, "Thank you, {$name}! Your message has been sent — a Havelle Agency representative will reach out within 24 hours.");
 } catch (Throwable $e) {
-    error_log('Manor Cares contact form mail error: ' . $e->getMessage());
+    error_log('Havelle Agency contact form mail error: ' . $e->getMessage());
     mc_respond(false, 'Sorry, your message could not be sent right now. Please try again later or email us directly.', 500);
 }

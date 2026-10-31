@@ -1,6 +1,6 @@
 <?php
 /**
- * Manor Cares — outbound mail abstraction
+ * Havelle Agency — outbound mail abstraction
  *
  * Two backends are supported, chosen automatically at runtime:
  *

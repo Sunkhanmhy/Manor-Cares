@@ -1,6 +1,6 @@
 <?php
 /**
- * Manor Cares — mbstring polyfills
+ * Havelle Agency — mbstring polyfills
  *
  * Some hosts (and this local dev machine) ship PHP without the optional
  * `mbstring` extension enabled. Rather than making it a hard requirement,

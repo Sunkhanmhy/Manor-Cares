@@ -1,6 +1,6 @@
 <?php
 /**
- * Manor Cares — minimal HTTP client for outbound API calls (Resend, Supabase Auth)
+ * Havelle Agency — minimal HTTP client for outbound API calls (Resend, Supabase Auth)
  *
  * Uses PHP's built-in `http`/`https` stream wrapper (allow_url_fopen) instead
  * of the `curl` extension, since curl isn't guaranteed to be installed on

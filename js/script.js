@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Manor Cares — shared JS (theme toggle, nav, reveal, faq, calculator, forms)
+   Havelle Agency — shared JS (theme toggle, nav, reveal, faq, calculator, forms)
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ---------- Theme toggle (persisted) ---------- */
   const root = document.documentElement;
   const themeBtn = document.getElementById('themeToggle');
-  const savedTheme = localStorage.getItem('manor-theme') || 'light';
+  const savedTheme = localStorage.getItem('havelle-agency-theme') || 'light';
   root.setAttribute('data-theme', savedTheme);
   updateThemeIcon(savedTheme);
 
@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const current = root.getAttribute('data-theme');
       const next = current === 'dark' ? 'light' : 'dark';
       root.setAttribute('data-theme', next);
-      localStorage.setItem('manor-theme', next);
+      localStorage.setItem('havelle-agency-theme', next);
       updateThemeIcon(next);
     });
   }

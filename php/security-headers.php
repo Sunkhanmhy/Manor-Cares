@@ -1,6 +1,6 @@
 <?php
 /**
- * Manor Cares — security headers
+ * Havelle Agency — security headers
  *
  * Included at the top of every PHP entry point. Keeps a strict baseline
  * against common OWASP Top 10 issues (XSS, clickjacking, MIME sniffing,

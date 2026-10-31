@@ -1,6 +1,6 @@
 <?php
 /**
- * Manor Cares — Mail configuration
+ * Havelle Agency — Mail configuration
  *
  * Two send paths are supported (see php/mailer.php):
  *
@@ -19,11 +19,11 @@
  *   MAIL_SMTP_PASS        smtp-password
  *   MAIL_SMTP_PORT        587
  *   MAIL_SMTP_ENCRYPTION  tls|ssl
- *   MAIL_FROM_ADDRESS     no-reply@manor-cares.com
- *   MAIL_FROM_NAME        Manor Cares Website
- *   MAIL_TO_ADDRESS       support@manor-cares.com
- *   MAIL_TO_NAME          Manor Cares Support
- *   ALLOWED_ORIGIN        https://www.manor-cares.com
+ *   MAIL_FROM_ADDRESS     no-reply@havelle-agency.com
+ *   MAIL_FROM_NAME        Havelle Agency Website
+ *   MAIL_TO_ADDRESS       support@havelle-agency.com
+ *   MAIL_TO_NAME          Havelle Agency Support
+ *   ALLOWED_ORIGIN        https://www.havelle-agency.com
  *
  * For local testing you can export these in your shell before starting
  * the PHP dev server, e.g.:
@@ -40,16 +40,16 @@ if (!function_exists('mc_env')) {
 
 return [
     'resend_api_key' => mc_env('RESEND_API_KEY', ''),
-    'resend_from'    => mc_env('RESEND_FROM_EMAIL', mc_env('MAIL_FROM_ADDRESS', 'no-reply@manor-cares.com')),
+    'resend_from'    => mc_env('RESEND_FROM_EMAIL', mc_env('MAIL_FROM_ADDRESS', 'no-reply@havelle-agency.com')),
     'use_smtp'   => filter_var(mc_env('MAIL_USE_SMTP', 'true'), FILTER_VALIDATE_BOOLEAN),
     'smtp_host'  => mc_env('MAIL_SMTP_HOST', 'smtp.example.com'),
     'smtp_user'  => mc_env('MAIL_SMTP_USER', ''),
     'smtp_pass'  => mc_env('MAIL_SMTP_PASS', ''),
     'smtp_port'  => (int) mc_env('MAIL_SMTP_PORT', '587'),
     'smtp_secure'=> mc_env('MAIL_SMTP_ENCRYPTION', 'tls'),
-    'from_email' => mc_env('MAIL_FROM_ADDRESS', 'no-reply@manor-cares.com'),
-    'from_name'  => mc_env('MAIL_FROM_NAME', 'Manor Cares Website'),
-    'to_email'   => mc_env('MAIL_TO_ADDRESS', 'support@manor-cares.com'),
-    'to_name'    => mc_env('MAIL_TO_NAME', 'Manor Cares Support'),
+    'from_email' => mc_env('MAIL_FROM_ADDRESS', 'no-reply@havelle-agency.com'),
+    'from_name'  => mc_env('MAIL_FROM_NAME', 'Havelle Agency Website'),
+    'to_email'   => mc_env('MAIL_TO_ADDRESS', 'support@havelle-agency.com'),
+    'to_name'    => mc_env('MAIL_TO_NAME', 'Havelle Agency Support'),
     'allowed_origin' => mc_env('ALLOWED_ORIGIN', ''),
 ];

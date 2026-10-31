@@ -1,6 +1,6 @@
 <?php
 /**
- * Manor Cares — shared environment loader
+ * Havelle Agency — shared environment loader
  *
  * Loads `.env` into getenv() for local development (contact-handler.php
  * uses this for MAIL_ and RESEND_ vars). No database connection lives here

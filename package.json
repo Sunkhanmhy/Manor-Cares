@@ -1,8 +1,8 @@
 {
-  "name": "manor-cares",
+  "name": "havelle-agency",
   "private": true,
   "version": "1.0.0",
-  "description": "Manor Cares — luxury cleaning services website, dashboards and PHP/Postgres API.",
+  "description": "Havelle Agency — luxury cleaning services website, dashboards and PHP/Postgres API.",
   "type": "module",
   "scripts": {
     "dev": "vite",

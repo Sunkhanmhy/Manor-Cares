@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite';
 
-// Manor Cares is a static HTML/CSS/JS site with a thin PHP backend (contact
+// Havelle Agency is a static HTML/CSS/JS site with a thin PHP backend (contact
 // form + one-time payment iframe). No JS bundling/build step is required —
 // Vite is only wired up for teams that want a local dev server with HMR.
 export default defineConfig({
